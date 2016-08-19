@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="en" ng-app id="ng-app">
 <head>
-<title>Tim Spann - Pivotal - CF - Spring Social Twitter Integration</title>
+<title>Tim Spann - Hortonworks - Hive - Spring Social Twitter Integration</title>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.js"></script>	
 <script>
 function PostsCtrlAjax($scope, $http)
 {
-$http({method: 'GET', url: '/timeline/cloudfoundry'}).success(function(data)
+$http({method: 'GET', url: '/timeline/hadoop'}).success(function(data)
 {
 	$scope.posts = data; // response data 
 });
@@ -18,7 +18,6 @@ $http({method: 'GET', url: '/timeline/cloudfoundry'}).success(function(data)
 <div ng-repeat="post in posts">
 <div class='time'>{{post.createdAt}}</div><p>{{post.text}}</p></div>
 </div>
-&copy; 2015
+&copy; 2016
 </body>
 </html>
-  
