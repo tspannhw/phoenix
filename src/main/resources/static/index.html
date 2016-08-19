@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Startup Name Search</title>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.js"></script>	
+  <script src="./dist/js/ngAtp-bundle.js"></script>
+  <link href="./dist/css/ng-atp.css" rel="stylesheet">
+  <link href="data.css" rel="stylesheet">  
+</head>
+<body ng-app="myApp"> 
+<div ng-controller="MyCtrl" id="main" class="white-frame">  
+	<b>Software Driven Startups:</b>
+  <p ng-class="{ success : company }">{{ company }}</p>
+  <div ng-atp="company" ng-atp-config="companyAutocompleteOpts">
+    <input id="inputfield1" ng-atp-input />
+    <ul ng-atp-suggestions></ul></div>
+    &copy; 2015</div>
+
+<br clear="all"/> <p align="center">
+    <div class="white-frame" id="tweets" ng-app ng-controller="PostsCtrlAjax"  style="align: center;overflow:auto;height:300px;width:800px">
+<b>Recent CloudFoundry Tweets:</b>
+<div ng-repeat="post in posts">
+<div class='time'>{{post.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</div><p>{{post.text}}</p></div>
+</div>
+</p>
+<script>
+var myApp = angular.module('myApp',['ngAtp']);
+
+function PostsCtrlAjax($scope, $http)
+{
+	$http({method: 'GET', url: '/timeline/cloudfoundry'}).success(function(data)
+	{
+		$scope.posts = data; // response data 
+	});
+}
+
+function MyCtrl($scope) {
+  $scope.clearcompany = function() {
+    $scope.company = null;
+  }
+  $scope.companyAutocompleteOpts = {
+    remote : '/query/%QUERY',
+    verify : function(datum) {
+      return datum && _.has(datum, 'value')
+    },
+    limit: 75,
+    clearWhenComplete : true
+  };
+}
+
+document.getElementById('inputfield1').focus();
+</script>
+</body>
+</html>
