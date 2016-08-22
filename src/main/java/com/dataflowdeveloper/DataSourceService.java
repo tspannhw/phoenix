@@ -58,6 +58,25 @@ public class DataSourceService {
 				tweet.setMsg(res.getString("msg"));
 				tweet.setHandle(res.getString("handle"));
 				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+				tweet.setLocation(res.getString("location"));
+
 				tweets.add(tweet);
 			}
 
