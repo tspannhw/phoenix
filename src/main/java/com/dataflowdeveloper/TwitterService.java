@@ -16,11 +16,12 @@ public class TwitterService {
    @Autowired
     private Twitter twitter;
 
-// Consumer Key (API Key)	  ql09tgU1MhvwJAsmI9vIYPxTB
-//Consumer Secret (API Secret)      4k7QphoGGlKBAsyhW9T9yKPYmlZ80djmAxRBPTithBSBNNN7F1
-//Access Token                      1006391-Yf9r2kVrblGnJeuZFdaj1vaATOB3wb707RUNqZlhOG
-//Access Token Secret               RZRsh4F1Td9gVX4W2KFnJk1JLTzkKWsjxGVEbNwuHxg26
-   
+
+   /**
+    * 
+    * @param twitterUser
+    * @return
+    */
     public List <Tweet> getUserTimeline(String twitterUser) {
         TimelineOperations timelineOps = twitter.timelineOperations();
         List<Tweet> tweets = timelineOps.getUserTimeline("@" + twitterUser);
@@ -28,6 +29,11 @@ public class TwitterService {
         return tweets;
     }
 
+    /**
+     * 
+     * @param twitterUser
+     * @return
+     */
     public TwitterProfile getUserProfile(String twitterUser) {
         UserOperations userOperations = twitter.userOperations();
         TwitterProfile userProfile = userOperations.getUserProfile(twitterUser);

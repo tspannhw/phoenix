@@ -56,15 +56,21 @@ public class HiveApplication {
 			
 			return twitter;
 		}
-		
+
+	    @Value("${hiveuri}")
+	    private String databaseUri;
+	    
+	    @Value("${hiveusername}")
+	    private String username;
+	    
 		@Bean
 		public DataSource dataSource() {
 			
 			BasicDataSource dataSource = new BasicDataSource();
-			dataSource.setUrl("jdbc:hive2://localhost:10000/default");
+			dataSource.setUrl(databaseUri);
 			dataSource.setDriverClassName("org.apache.hive.jdbc.HiveDriver");
-			dataSource.setUsername("root");
-			// dataSource.setPassword("password");
+			dataSource.setUsername(username);
+			// dataSource.setPassword(password);
 			logger.error("Initialized Hive");
 			
 			return dataSource;
