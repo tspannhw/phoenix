@@ -57,10 +57,10 @@ public class DataController {
     }
     
     @RequestMapping("/query/{query}")
-    public List<Twitter2> query(
+    public List<PhillyCrime> query(
     		@PathVariable(value="query") String query) 
     {
-    	List<Twitter2> value = dataSourceService.search(query);
+    	List<PhillyCrime> value = dataSourceService.search(query);
     	final String userIpAddress = getCurrentRequest().getRemoteAddr();
     	final String userAgent = getCurrentRequest().getHeader("user-agent");
     	final String userDisplay = String.format("Query:%s,IP:%s Browser:%s", query, userIpAddress, userAgent);

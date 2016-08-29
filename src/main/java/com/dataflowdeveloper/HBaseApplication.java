@@ -1,8 +1,11 @@
 package com.dataflowdeveloper;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,13 +23,12 @@ import org.springframework.social.twitter.api.impl.TwitterTemplate;
 @ComponentScan
 @EnableAutoConfiguration
 @SpringBootApplication
-public class HiveApplication {
+public class HBaseApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HiveApplication.class, args);
+		SpringApplication.run(HBaseApplication.class, args);
 	}
 
-	// https://cwiki.apache.org/confluence/display/Hive/HiveServer2+Clients#HiveServer2Clients-JDBC
 	@Configuration
 	@Profile("default")
 	static class LocalConfiguration {
@@ -57,23 +59,22 @@ public class HiveApplication {
 			return twitter;
 		}
 
-	    @Value("${hiveuri}")
+	    @Value("${purl}")
 	    private String databaseUri;
-	    
-	    @Value("${hiveusername}")
-	    private String username;
-	    
+	    	    
 		@Bean
-		public DataSource dataSource() {
+		public Connection connection() {
+		        Connection con = null;
+				try {
+					con = DriverManager.getConnection(databaseUri);
+				} catch (SQLException e) {
+					logger.error("Connection fail: ", e);
+				}
+	
+			//dataSource.setDriverClassName("org.apache.phoenix.jdbc.PhoenixDriver");
+			logger.error("Initialized hbase");
 			
-			BasicDataSource dataSource = new BasicDataSource();
-			dataSource.setUrl(databaseUri);
-			dataSource.setDriverClassName("org.apache.hive.jdbc.HiveDriver");
-			dataSource.setUsername(username);
-			// dataSource.setPassword(password);
-			logger.error("Initialized Hive");
-			
-			return dataSource;
+			return con;
 		}
 	}
 }

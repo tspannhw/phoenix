@@ -9,8 +9,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HiveApplicationTests {
-	Logger logger = LoggerFactory.getLogger(HiveApplicationTests.class);
+public class HBaseApplicationTests {
+	Logger logger = LoggerFactory.getLogger(HBaseApplicationTests.class);
 
 	@Test
 	public void contextLoads() {

@@ -20,11 +20,11 @@ public class DataSourceService {
 	Logger logger = LoggerFactory.getLogger(DataSourceService.class);
 
 	@Autowired
-	public DataSource dataSource;
+	public Connection connection;
 
 	// default to empty
-	public Twitter2 defaultValue() {
-		return new Twitter2();
+	public PhillyCrime defaultValue() {
+		return new PhillyCrime();
 	}
 
 	// querylimit
@@ -37,44 +37,41 @@ public class DataSourceService {
 	 *            - search msg
 	 * @return List of Twitter2
 	 */
-	public List<Twitter2> search(String query) {
-		if (query == null) {
-			return null;
-		}
+	public List<PhillyCrime> search(String query) {
 
-		List<Twitter2> tweets = new ArrayList<>();
+		List<PhillyCrime> crimes = new ArrayList<>();
 		try {
 			logger.error("Query: " + query);
-			Connection connection = dataSource.getConnection();
+			logger.error("Limit:" + querylimit);
+			if ( connection == null ) { 
+				logger.error("Null connection");
+			}
+			if ( query == null || query.trim().length() <= 0 ) { 
+				query = "";
+			}
+			else {
+				query = "%" + query.toUpperCase() + "%";
+			}
+
 			PreparedStatement ps = connection
-					.prepareStatement("select * from sparktwitterorc WHERE msg like ? LIMIT ?");
-			ps.setString(1, "%" + query + "%");
+					.prepareStatement("select * from phillycrime WHERE upper(text_general_code) like ? LIMIT ?");
+			ps.setString(1, query);
 			ps.setInt(2, Integer.parseInt(querylimit));
 			ResultSet res = ps.executeQuery();
-			Twitter2 tweet = null;
+			PhillyCrime crime = null;
 			while (res.next()) {
-				tweet = new Twitter2();
-				tweet.setMsg(res.getString("msg"));
-				tweet.setHandle(res.getString("handle"));
-				tweet.setLocation(res.getString("location"));
-				tweet.setCoordinates(res.getString("coordinates"));
-				tweet.setFollowers_count(res.getString("followers_count"));
-				tweet.setGeo(res.getString("geo"));
-				tweet.setHashtags(res.getString("hashtags"));
-				tweet.setLanguage(res.getString("language"));
-				tweet.setPlace(res.getString("place"));
-				tweet.setProfile_image_url(res.getString("profile_image_url"));
-				tweet.setRetweet_count(res.getString("retweet_count"));
-				tweet.setSentiment(res.getString("sentiment"));
-				tweet.setSource(res.getString("source"));
-				tweet.setTag(res.getString("tag"));
-				tweet.setTime(res.getString("time"));
-				tweet.setTag(res.getString("tag"));
-				tweet.setTime_zone(res.getString("time_zone"));
-				tweet.setTweet_id(res.getString("tweet_id"));
-				tweet.setUnixtime(res.getString("unixtime"));
-				tweet.setUser_name(res.getString("user_name"));
-				tweets.add(tweet);
+				crime = new PhillyCrime();
+				crime.setDcKey(res.getString("dc_key"));
+				crime.setDcDist(res.getString("dc_dist"));
+				crime.setDispatchDate(res.getString("dispatch_date"));
+				crime.setDispatchDateTime(res.getString("dispatch_date_time"));
+				crime.setDispatchTime(res.getString("dispatch_time"));
+				crime.setHour(res.getString("hour"));
+				crime.setLocationBlock(res.getString("location_block"));
+				crime.setPsa(res.getString("psa"));
+				crime.setTextGeneralCode(res.getString("text_general_code"));
+				crime.setUcrGeneral(res.getString("ucr_general"));
+				crimes.add(crime);
 			}
 
 			res.close();
@@ -83,13 +80,14 @@ public class DataSourceService {
 			res = null;
 			ps = null;
 			connection = null;
-			tweet = null;
+			crime = null;
 
-			logger.error("Size=" + tweets.size());
+			logger.error("Size=" + crimes.size());
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("Error in search", e);
 		}
 
-		return tweets;
+		return crimes;
 	}
 }
