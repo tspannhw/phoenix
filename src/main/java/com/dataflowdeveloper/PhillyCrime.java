@@ -9,7 +9,7 @@ location_block varchar,psa varchar,
 text_general_code varchar,ucr_general varchar);
  * @author tspann
  *
- */
+ */ 
 public class PhillyCrime implements Serializable {
 
 	private static final long serialVersionUID = -2549969191580450272L;

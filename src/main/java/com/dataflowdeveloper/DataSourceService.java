@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,23 +38,29 @@ public class DataSourceService {
 	public List<PhillyCrime> search(String query) {
 
 		List<PhillyCrime> crimes = new ArrayList<>();
+		String sql = "";
 		try {
 			logger.error("Query: " + query);
 			logger.error("Limit:" + querylimit);
 			if ( connection == null ) { 
 				logger.error("Null connection");
+				return crimes;
 			}
 			if ( query == null || query.trim().length() <= 0 ) { 
 				query = "";
+				sql = "select * from phillycrime";
 			}
 			else {
 				query = "%" + query.toUpperCase() + "%";
+				sql = "select * from phillycrime WHERE upper(text_general_code) like ? LIMIT ?";
 			}
 
 			PreparedStatement ps = connection
-					.prepareStatement("select * from phillycrime WHERE upper(text_general_code) like ? LIMIT ?");
-			ps.setString(1, query);
-			ps.setInt(2, Integer.parseInt(querylimit));
+					.prepareStatement(sql);
+			if ( query.length() > 1 ) { 
+				ps.setString(1, query);
+				ps.setInt(2, Integer.parseInt(querylimit));
+			}
 			ResultSet res = ps.executeQuery();
 			PhillyCrime crime = null;
 			while (res.next()) {

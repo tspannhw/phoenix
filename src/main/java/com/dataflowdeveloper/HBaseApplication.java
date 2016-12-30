@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -68,6 +66,7 @@ public class HBaseApplication {
 				try {
 					con = DriverManager.getConnection(databaseUri);
 				} catch (SQLException e) {
+					e.printStackTrace();
 					logger.error("Connection fail: ", e);
 				}
 	

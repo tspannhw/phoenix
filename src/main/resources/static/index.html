@@ -12,14 +12,13 @@
 <body ng-app="myApp"> 
 <b>Philly Crime Watch</b>
 <br><br>
+<div style="align: center; overflow:auto; height:300px; width:800px" class="white-frame" id="searchText">
 To Query different crimes:   http://localhost:9999/?query=Firearm
-<br><br
-<div class="white-frame" id="searchText">
-<form method="get" action="">
+<form method="get" action="/index.html">
 Query: <input type="text" id="query" name="query" value=""> <input type="submit" name="Go">
 </form>
 </div>
-<br>
+<br><br>
     <div class="white-frame" id="crime2" ng-app ng-controller="MyCtrl"  style="align: center;overflow:auto;height:300px;width:800px">
 <b>Recent Philadelphia Police Reports:</b><br><p>
 <div ng-repeat="crime in crimelist">

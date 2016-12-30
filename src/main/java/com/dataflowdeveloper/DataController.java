@@ -32,7 +32,7 @@ public class DataController {
 	     HttpServletRequest servletRequest = ((ServletRequestAttributes) requestAttributes).getRequest();
 	     Assert.state(servletRequest != null, "Could not find current HttpServletRequest");
 	     return servletRequest;
-	 }
+	 }    
 	
 	Logger logger = LoggerFactory.getLogger(DataController.class);
 
